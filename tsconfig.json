@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "outDir": "dist",
+    "checkJs": true,
+    "lib": ["es2015", "es2016.array.include", "es2017.object", "esnext.array"],
+    "target": "es5",
+    "skipLibCheck": true,
+    "downlevelIteration": true
+  },
+  "include": ["src/**/*"]
+}
