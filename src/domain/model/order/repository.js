@@ -1,18 +1,20 @@
 /** @typedef {import('./order').Order} Order */
 
-class OrderRepository {
+class IOrderRepository {
   /**
    * @param {string} id
    * @returns {Order}
    */
   get(id) {
-    return {};
+    throw new Error('Not Implemented');
   }
   /**
    * @param {Order} order
    * @returns {void}
    */
-  save(order) {}
+  save(order) {
+    throw new Error('Not Implemented');
+  }
 }
 
-module.exports.OrderRepository = OrderRepository;
+module.exports.IOrderRepository = IOrderRepository;

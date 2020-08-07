@@ -17,6 +17,16 @@ class Order {
     this._fields = fields;
   }
 
+  static create({ id, recipient, items }) {
+    return Order.build({
+      id,
+      recipient,
+      items,
+      total: items.reduce((acc, item) => acc + item.subTotal, 0),
+      status: Order.Statuses.PROCESSING,
+    });
+  }
+
   /**
    * @param {OrderFields} fields
    */
@@ -59,7 +69,24 @@ class OrderRecipient {}
 /**
  * @ValueObject
  */
-class OrderItem {}
+class OrderItem {
+  /**
+   *
+   * @param {Object} params
+   * @param {Money} params.unitPrice
+   * @param {string} params.name
+   * @param {number} params.quantity
+   */
+  constructor({ unitPrice, name, quantity }) {
+    this.unitPrice = unitPrice;
+    this.name = name;
+    this.quantity = quantity;
+  }
+
+  get subTotal() {
+    return this.unitPrice.multiplyBy(this.quantity);
+  }
+}
 
 // 這樣 export jsdoc 才吃得到
 module.exports.Order = Order;

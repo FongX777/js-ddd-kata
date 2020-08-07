@@ -26,6 +26,16 @@ class Money {
       currency: moneyToAdd.currency,
     });
   }
+
+  multiplyBy(num) {
+    if (num < 0) {
+      throw new Error();
+    }
+    return new Money({
+      amount: this.amount * num,
+      currency: this.currency,
+    });
+  }
 }
 
 module.exports = { Money };
