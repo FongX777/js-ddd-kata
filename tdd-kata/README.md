@@ -38,7 +38,7 @@ test('add values in the string', (t) => {
 - Good: '0,1,[...other 998 values]'
 - Bad: '0,1,[...other 1000 values]' -> Max Value Count Excess Error
 
-## Step 4: new line '\n' is also a valid separator
+## Step 5: new line '\n' is also a valid separator
 
 Example :
 
