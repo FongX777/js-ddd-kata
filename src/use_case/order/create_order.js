@@ -1,5 +1,6 @@
 /** @typedef {import('../../domain/model/order').IOrderRepository} IOrderRepository */
 const { Order } = require('../../domain/model/order');
+const uuidv4 = require('uuid/v4');
 
 class CreateOrderUseCase {
   /**
@@ -10,20 +11,21 @@ class CreateOrderUseCase {
     this.orderRepo = orderRepo;
   }
 
-  execute({
-    items,
-    recipient,
+  execute({ items, recipient }) {
+    const order = Order.create({
+      id: uuidv4(),
+      recipient: {
+        name: recipient.name,
+        email: recipient.email,
+        phoneNumber: recipient.phoneNumber,
+        shippingAddress: recipient.shippingAddress,
+      },
+      items: [],
+    });
 
-    // And the total order amount is 1000
-    // And the shopper has input recipient information
-    //   | name | email         | phoneNumber | shippingAddress          |
-    //   | Sam  | sam@gmail.com | 0912121212  | Taipei Xinyi Road No 10. |
-    // When the cart is checked out
-    // Then the order is created
-    // And a paymentLink is created
-    // And the status should be 'PROCESSING'
-  }) {
-    const order = Order.create;
-    return '';
+    return {
+      order,
+      error: undefined,
+    };
   }
 }

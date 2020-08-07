@@ -2,7 +2,7 @@
 
 ![cover](https://www.allaboutcircuits.com/uploads/articles/red-green-refactor.png)
 
-## Step 1: 2 + 2 = 5
+## Step 1: 2 + 2 = 4
 
 Example:
 
@@ -18,7 +18,7 @@ test('2+2 = 4', (t) => {
 - Good: 0, 1, 2, 3
 - Bad: -1, -2, -3 -> Invalid Value Error
 
-## Step 3: Input is a string with comma separated each value
+## Step 3: Input can also be a string with comma separated each value
 
 - Good: '0,1,2,3' -> 6
 - Bad: '0,-1,2,3' -> Invalid Value Error
