@@ -1,1 +1,5 @@
-class CreateOrderUseCase extends {}
+class CreateOrderUseCase {
+  constructor() {}
+
+  execute() {}
+}
