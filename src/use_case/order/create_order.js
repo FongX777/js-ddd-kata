@@ -12,7 +12,7 @@ class CreateOrderUseCase {
   }
 
   execute({ items, recipient }) {
-    const order = Order.create({
+    const [err, order] = Order.create({
       id: uuidv4(),
       recipient: {
         name: recipient.name,
@@ -22,6 +22,11 @@ class CreateOrderUseCase {
       },
       items: [],
     });
+    if (err) {
+      return {
+        error: 'Create Order Error: ' + err,
+      };
+    }
 
     return {
       order,
@@ -29,3 +34,7 @@ class CreateOrderUseCase {
     };
   }
 }
+
+module.exports = {
+  CreateOrderUseCase,
+};

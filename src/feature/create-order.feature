@@ -1,4 +1,4 @@
-Feature: Shopper Place an order
+Feature: Shopper Places an order
 
     As a shopper,
     I want to place an order,

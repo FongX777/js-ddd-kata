@@ -62,7 +62,7 @@ test('Money Add should have the same currency', (t) => {
     currency: 'USD',
   });
   const result = t.throws(() => {
-    const newMoney = money.add(moneyToAdd);
+    money.add(moneyToAdd);
   });
   t.is(result.message, 'Currency should be the same');
 });

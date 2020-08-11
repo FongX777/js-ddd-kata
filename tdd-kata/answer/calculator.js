@@ -10,11 +10,11 @@ const add = (a, b) => {
     }
     return nums.reduce((acc, numStr) => {
       const num = Number(numStr);
-      if (num < 0) {
-        throw new Error('Invalid Value Error');
-      }
       if (Number.isNaN(num)) {
         throw new Error('Invalid Separator Error');
+      }
+      if (num < 0) {
+        throw new Error('Invalid Value Error');
       }
       return num + acc;
     }, 0);

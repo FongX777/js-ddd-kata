@@ -1,4 +1,13 @@
+const AllowCurrencies = {
+  TWD: 'TWD',
+  USD: 'USD',
+  JYP: 'JYP',
+};
+
 class Money {
+  static get AllowCurrencies() {
+    return AllowCurrencies;
+  }
   /**
    * @param {object} fields
    * @param {number} fields.amount
@@ -8,7 +17,7 @@ class Money {
     if (amount < 0) {
       throw new Error('Money amount should not be negative');
     }
-    if (!currency) {
+    if (!Money.AllowCurrencies[currency]) {
       throw new Error('Money currency is not allowed');
     }
     this.amount = amount;
@@ -21,6 +30,9 @@ class Money {
    */
   add(moneyToAdd) {
     // TODO: check currency equivalence
+    if (moneyToAdd.currency !== this.currency) {
+      throw new Error('Currency should be the same');
+    }
     return new Money({
       amount: moneyToAdd.amount + this.amount,
       currency: moneyToAdd.currency,
@@ -28,7 +40,7 @@ class Money {
   }
 
   multiplyBy(num) {
-    if (num < 0) {
+    if (num <= 0) {
       throw new Error();
     }
     return new Money({
