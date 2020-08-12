@@ -1,6 +1,6 @@
 /** @typedef {import('../../domain/model/order').IOrderRepository} IOrderRepository */
 const { Order } = require('../../domain/model/order');
-const uuidv4 = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 
 class CreateOrderUseCase {
   /**

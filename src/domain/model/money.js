@@ -8,6 +8,7 @@ class Money {
   static get AllowCurrencies() {
     return AllowCurrencies;
   }
+
   /**
    * @param {object} fields
    * @param {number} fields.amount

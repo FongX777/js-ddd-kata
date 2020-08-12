@@ -20,9 +20,10 @@ test('2+2 = 4', (t) => {
 
 ## Step 3: Input can also be a string with comma separated each value
 
-- Good: '0,1,2,3' -> 6
-- Bad: '0,-1,2,3' -> Invalid Value Error
-- Bad: '0;1;2,3' -> Invalid Separator Error
+- Good: (1, 2) => 3
+- Good: ('0,1,2,3') => 6
+- Bad: ('0,-1,2,3') => Invalid Value Error
+- Bad: ('0;1;2,3') => Invalid Separator Error
 
 Example :
 

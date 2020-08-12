@@ -1,4 +1,4 @@
-const { IOrderRepository, Order } = require('../../domain/model/order');
+const { IOrderRepository } = require('../../../domain/model/order');
 
 class InMemOrderRepository extends IOrderRepository {
   constructor() {
@@ -7,11 +7,15 @@ class InMemOrderRepository extends IOrderRepository {
   }
 
   async get(id) {
-    return this.db.find(db.id === id);
+    return this.db[id];
   }
 
   async save(data) {
-    this.db.push(data);
+    this.db[data.id] = data;
+  }
+
+  getFirstOne() {
+    return Object.values(this.db).length;
   }
 }
 

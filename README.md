@@ -1,5 +1,11 @@
 # JS DDD Kata
 
-## Order Kata
+## Get Started
 
-This is a tennis game
+```bash
+npm install
+```
+
+## TDD Kata
+
+## Order Kata

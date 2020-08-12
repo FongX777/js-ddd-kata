@@ -3,16 +3,17 @@
 class IOrderRepository {
   /**
    * @param {string} id
-   * @returns {Order}
+   * @returns {Promise.<Order>}
    */
-  get(id) {
+  async get(id) {
     throw new Error('Not Implemented');
   }
+
   /**
    * @param {Order} order
-   * @returns {void}
+   * @returns {Promise.<void>}
    */
-  save(order) {
+  async save(order) {
     throw new Error('Not Implemented');
   }
 }

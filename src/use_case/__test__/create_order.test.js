@@ -1,7 +1,5 @@
-const { CreateOrderUseCase } = require('./create_order');
-const {
-  InMemOrderRepository,
-} = require('../../infra/repository/in-memory-order');
+const { CreateOrderUseCase } = require('../order/create_order');
+const { InMemOrderRepository } = require('./repository/order_repo');
 const test = require('ava').default;
 
 test('pass', (t) => {
