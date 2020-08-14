@@ -11,6 +11,15 @@ class CreateOrderUseCase {
     this.orderRepo = orderRepo;
   }
 
+  /**
+   * @param {Object} params
+   * @param {Object[]} params.items
+   * @param {string} params.items[].id
+   * @param {string} params.items[].name
+   * @param {string} params.items[].quantity
+   * @param {number} params.items[].unitPrice
+   * @param {Object} params.recipient
+   */
   execute({ items, recipient }) {
     const [err, order] = Order.create({
       id: uuidv4(),
@@ -20,7 +29,8 @@ class CreateOrderUseCase {
         phoneNumber: recipient.phoneNumber,
         shippingAddress: recipient.shippingAddress,
       },
-      items: [],
+      items,
+      currency: 'TWD',
     });
     if (err) {
       return {

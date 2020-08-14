@@ -23,15 +23,25 @@ class Order {
    * 3. each item quantity <= 5
    * @returns {[string, Order]}
    */
-  static create({ id, recipient, items }) {
+  static create({ id, recipient, items, currency }) {
     if (!id) {
       return ['no id', undefined];
     }
     const [err, order] = Order.build({
       id,
       recipient,
-      items,
-      total: items.reduce((acc, item) => acc + item.subTotal, 0),
+      items: items.map(
+        (item) =>
+          new OrderItem({
+            unitPrice: item.unitPrice,
+            name: item.name,
+            quantity: item.quantity,
+          })
+      ),
+      total: new Money({
+        amount: items.reduce((acc, item) => acc + item.subTotal, 0),
+        currency,
+      }),
       status: Order.Statuses.PROCESSING,
     });
     if (err) {
@@ -54,21 +64,25 @@ class Order {
     // * Each item can only has at max 5 pieces
     // * Max order amount should not exceed 10,000
 
-    return [, new Order(fields)];
+    return [undefined, new Order(fields)];
   }
 
   get id() {
     return this._fields.id;
   }
+
   get recipient() {
     return this._fields.recipient;
   }
+
   get items() {
     return this._fields.items;
   }
+
   get total() {
     return this._fields.total;
   }
+
   get status() {
     return this._fields.status;
   }
