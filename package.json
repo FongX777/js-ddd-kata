@@ -4,7 +4,8 @@
   "description": "## Car Kata",
   "main": "index.js",
   "scripts": {
-    "test": "ava"
+    "test": "ava",
+    "feature-test": "cucumber-js -- src/feature"
   },
   "repository": {
     "type": "git",

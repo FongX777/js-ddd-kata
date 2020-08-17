@@ -21,7 +21,7 @@ Feature: Shopper Places an order
     When the cart is checked out
     Then the order is created
     And a paymentLink is created
-    And the status should be 'PROCESSING'
+    And the status should be "PROCESSING"
 
   Scenario: Max 8 unique items in one order
     Given a shopper has 9 products in the cart
@@ -29,7 +29,7 @@ Feature: Shopper Places an order
     And the shopper has input enough recipient information
     When the cart is checked out
     Then the order should not be created
-    And the error message should be 'Exceed Max Unique Items Allowed'
+    And the error message should be "[Create Order Error] Max 8 items"
 
 
   Scenario: Each item can only has at max 5 pieces
@@ -38,14 +38,14 @@ Feature: Shopper Places an order
     And the shopper has input enough recipient information
     When the cart is checked out
     Then the order should not be created
-    And the error message should be 'Exceed Max Items Purchase Limit Allowed'
+    And the error message should be "Exceed Max Items Purchase Limit Allowed"
 
   Scenario: Max order amount should not exceed 10,000
     Given a shopper has 6 a products with total 10,001 in the cart
     And the shopper has input enough recipient information
     When the cart is checked out
     Then the order should not be created
-    And the error message should be 'Exceed Max Order Amount Allowed'
+    And the error message should be "Exceed Max Order Amount Allowed"
 
 
 

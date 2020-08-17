@@ -8,5 +8,5 @@
     "skipLibCheck": true,
     "downlevelIteration": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "feature"]
 }
