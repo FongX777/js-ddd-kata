@@ -1,3 +1,4 @@
+/** @typedef {import('../../../domain/model/order').Order} Order */
 const { IOrderRepository } = require('../../../domain/model/order');
 
 class InMemOrderRepository extends IOrderRepository {
@@ -14,8 +15,11 @@ class InMemOrderRepository extends IOrderRepository {
     this.db[data.id] = data;
   }
 
+  /**
+   * @returns {Order}
+   */
   getFirstOne() {
-    return Object.values(this.db).length;
+    return Object.values(this.db)[0];
   }
 }
 

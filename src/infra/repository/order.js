@@ -11,9 +11,13 @@ class PGOrderRepository extends IOrderRepository {
     return toAggregate(dbData);
   }
 
-  async save(data) {
-    this.db.query('INSERT ....');
+  async save(model) {
+    this.db.query('INSERT ....', [toPersistence(model)]);
   }
+}
+
+function toPersistence(model) {
+  return model;
 }
 
 function toAggregate(dbData) {
@@ -23,3 +27,7 @@ function toAggregate(dbData) {
   }
   return order;
 }
+
+module.exports = {
+  PGOrderRepository,
+};

@@ -2,10 +2,7 @@ const test = require('ava').default;
 const { Money } = require('../money');
 
 // Money should have 2 values: amount & currency
-// Money only accept 'TWD', 'USD', 'JPY'
-// Money.add
 
-// test 1: creation test
 test('Create a money', (t) => {
   const money = new Money({
     amount: 1000,
@@ -65,4 +62,17 @@ test('Money Add should have the same currency', (t) => {
     money.add(moneyToAdd);
   });
   t.is(result.message, 'Currency should be the same');
+});
+
+test('100 TWD is higher than 10 TWD ', (t) => {
+  const money1 = new Money({
+    amount: 100,
+    currency: 'TWD',
+  });
+  const money2 = new Money({
+    amount: 10,
+    currency: 'TWD',
+  });
+  const result = money1.higherThan(money2);
+  t.true(result);
 });

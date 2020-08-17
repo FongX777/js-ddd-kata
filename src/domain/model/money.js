@@ -49,6 +49,18 @@ class Money {
       currency: this.currency,
     });
   }
+
+  /**
+   *
+   * @param {Money} targetMoney
+   */
+  higherThan(targetMoney) {
+    // TODO: check currency equivalence
+    if (targetMoney.currency !== this.currency) {
+      throw new Error('Currency should be the same');
+    }
+    return this.amount > targetMoney.amount;
+  }
 }
 
 module.exports = { Money };

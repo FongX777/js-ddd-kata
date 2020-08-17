@@ -15,8 +15,14 @@
     "no-dupe-keys": "error",
     "no-dupe-class-members": "error",
     "semi": ["error", "always"],
-    "comma-dangle": ["error", { "objects": "always-multiline" }],
-    "space-before-function-paren": ["error", "never"],
+    "comma-dangle": [
+      "error",
+      { "objects": "always-multiline", "arrays": "always-multiline" }
+    ],
+    "space-before-function-paren": [
+      "error",
+      { "asyncArrow": "always", "named": "never" }
+    ],
     "lines-between-class-members": ["error"]
   }
 }

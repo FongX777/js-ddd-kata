@@ -17,13 +17,21 @@ class Order {
     this._fields = fields;
   }
 
+  static MaxAmount() {
+    return new Money({
+      amount: 100000,
+      currency: Money.AllowCurrencies.TWD,
+    });
+  }
+
   /**
+   * NOTE: this function is built for client
    * 1. status processing
    * 2. items length <= 8
    * 3. each item quantity <= 5
    * @returns {[string, Order]}
    */
-  static create({ id, recipient, items, currency }) {
+  static createDefault({ id, recipient, items, currency }) {
     if (!id) {
       return ['no id', undefined];
     }
@@ -33,9 +41,10 @@ class Order {
       items: items.map(
         (item) =>
           new OrderItem({
-            unitPrice: item.unitPrice,
+            unitPrice: new Money({ amount: item.unitPrice, currency }),
             name: item.name,
             quantity: item.quantity,
+            productId: item.productId,
           })
       ),
       total: new Money({
@@ -51,18 +60,33 @@ class Order {
   }
 
   /**
+   * Note: This function is built mainly for internal usage
    * @param {OrderFields} fields
    * @returns {[string, Order]}
    */
   static build(fields) {
+    if (fields.items.length === 0) {
+      return ['Min 1 item', undefined];
+    }
     if (fields.items.length > 8) {
       return ['Max 8 items', undefined];
     }
-    // * Order has a status
-    // * An order should have a recipient's name, email, phone number & shipping address
-    // * an order can only has at max 8 unique items
-    // * Each item can only has at max 5 pieces
-    // * Max order amount should not exceed 10,000
+    const checkItemQuantity = (item) => item.quantity > 0 && item.quantity < 5;
+    const invalidItem = fields.items.find((item) => !checkItemQuantity(item));
+    if (invalidItem) {
+      return [
+        `Item '${invalidItem.name}' has invalid quantity '${invalidItem.quantity}'`,
+        undefined,
+      ];
+    }
+
+    const totalAmount = fields.items.reduce(
+      (total, item) => total.add(item.subTotal),
+      new Money({ amount: 0, currency: Money.AllowCurrencies.TWD })
+    );
+    if (totalAmount.higherThan(Order.MaxAmount())) {
+      return ['Order amount should not surpass 10,0000', undefined];
+    }
 
     return [undefined, new Order(fields)];
   }
@@ -131,14 +155,16 @@ class OrderItem {
   /**
    *
    * @param {Object} params
+   * @param {string} params.productId
    * @param {Money} params.unitPrice
    * @param {string} params.name
    * @param {number} params.quantity
    */
-  constructor({ unitPrice, name, quantity }) {
+  constructor({ unitPrice, name, quantity, productId }) {
     this.unitPrice = unitPrice;
     this.name = name;
     this.quantity = quantity;
+    this.productId = productId;
   }
 
   get subTotal() {
