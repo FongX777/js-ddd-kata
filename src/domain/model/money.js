@@ -31,35 +31,28 @@ class Money {
    */
   add(moneyToAdd) {
     // TODO: check currency equivalence
-    if (moneyToAdd.currency !== this.currency) {
-      throw new Error('Currency should be the same');
-    }
     return new Money({
       amount: moneyToAdd.amount + this.amount,
       currency: moneyToAdd.currency,
     });
   }
 
+  /**
+   * @param {number} num
+   * @returns {Money}
+   */
   multiplyBy(num) {
-    if (num <= 0) {
-      throw new Error();
-    }
-    return new Money({
-      amount: this.amount * num,
-      currency: this.currency,
-    });
+    // TODO: implement it
   }
 
   /**
    *
    * @param {Money} targetMoney
+   * @returns {Boolean}
    */
   higherThan(targetMoney) {
     // TODO: check currency equivalence
-    if (targetMoney.currency !== this.currency) {
-      throw new Error('Currency should be the same');
-    }
-    return this.amount > targetMoney.amount;
+    // TODO: implement it
   }
 }
 

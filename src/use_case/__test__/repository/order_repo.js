@@ -8,19 +8,17 @@ class InMemOrderRepository extends IOrderRepository {
   }
 
   async get(id) {
-    return this.db[id];
+    // TODO: fix it
   }
 
   async save(data) {
-    this.db[data.id] = data;
+    // TODO: fix it
   }
 
   /**
    * @returns {Order}
    */
-  getFirstOne() {
-    return Object.values(this.db)[0];
-  }
+  getFirstOne() {}
 }
 
 module.exports = {

@@ -46,29 +46,7 @@ class CreateOrderUseCase {
    * @param {Object} params.recipient
    */
   async execute({ items, recipient }) {
-    const [err, order] = Order.createDefault({
-      id: uuidv4(),
-      recipient: CreateOrderUseCase.toRecipient({
-        name: recipient.name,
-        email: recipient.email,
-        phoneNumber: recipient.phoneNumber,
-        shippingAddress: recipient.shippingAddress,
-      }),
-      items: items.map((item) => CreateOrderUseCase.toItem(item)),
-      currency: 'TWD',
-    });
-    if (err) {
-      return {
-        error: {
-          code: CreateOrderUseCase.ErrorCode.INCORRECT_PARMS,
-          message: `[Create Order Error] ${err}`,
-        },
-      };
-    }
-
-    await this.orderRepo.save(order);
-
-    return { order, error: undefined };
+    // TODO: create & save to repository
   }
 }
 

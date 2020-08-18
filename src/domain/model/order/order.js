@@ -32,31 +32,7 @@ class Order {
    * @returns {[string, Order]}
    */
   static createDefault({ id, recipient, items, currency }) {
-    if (!id) {
-      return ['no id', undefined];
-    }
-    const [err, order] = Order.build({
-      id,
-      recipient,
-      items: items.map(
-        (item) =>
-          new OrderItem({
-            unitPrice: new Money({ amount: item.unitPrice, currency }),
-            name: item.name,
-            quantity: item.quantity,
-            productId: item.productId,
-          })
-      ),
-      total: new Money({
-        amount: items.reduce((acc, item) => acc + item.subTotal, 0),
-        currency,
-      }),
-      status: Order.Statuses.PROCESSING,
-    });
-    if (err) {
-      return [err, undefined];
-    }
-    return [undefined, order];
+    // TODO: implement it
   }
 
   /**
@@ -65,30 +41,7 @@ class Order {
    * @returns {[string, Order]}
    */
   static build(fields) {
-    if (fields.items.length === 0) {
-      return ['Min 1 item', undefined];
-    }
-    if (fields.items.length > 8) {
-      return ['Max 8 items', undefined];
-    }
-    const checkItemQuantity = (item) => item.quantity > 0 && item.quantity < 5;
-    const invalidItem = fields.items.find((item) => !checkItemQuantity(item));
-    if (invalidItem) {
-      return [
-        `Item '${invalidItem.name}' has invalid quantity '${invalidItem.quantity}'`,
-        undefined,
-      ];
-    }
-
-    const totalAmount = fields.items.reduce(
-      (total, item) => total.add(item.subTotal),
-      new Money({ amount: 0, currency: Money.AllowCurrencies.TWD })
-    );
-    if (totalAmount.higherThan(Order.MaxAmount())) {
-      return ['Order amount should not surpass 10,0000', undefined];
-    }
-
-    return [undefined, new Order(fields)];
+    // TODO: implement it
   }
 
   get id() {
@@ -113,10 +66,7 @@ class Order {
 }
 
 Order.Statuses = {
-  PROCESSING: 'PROCESSING',
-  PAID: 'PAID',
-  SHIPPED: 'SHIPPED',
-  DONE: 'DONE',
+  // TODO: implement it
 };
 
 /**
@@ -132,19 +82,7 @@ class OrderRecipient {
    * @param {string} fields.shippingAddress
    */
   constructor({ name, email, phoneNumber, shippingAddress }) {
-    if (!name) {
-      throw new Error('Invalid name');
-    }
-    if (!email.includes('@')) {
-      throw new Error('Invalid email');
-    }
-    if (phoneNumber.length !== 10) {
-      throw new Error('Invalid phone');
-    }
-    this.name = name;
-    this.email = email;
-    this.phoneNumber = phoneNumber;
-    this.shippingAddress = shippingAddress;
+    // TODO: implement it
   }
 }
 
@@ -161,23 +99,7 @@ class OrderItem {
    * @param {number} params.quantity
    */
   constructor({ unitPrice, name, quantity, productId }) {
-    if (!unitPrice) {
-      throw new Error('need unitPrice');
-    }
-    if (name === '') {
-      throw new Error('order item name should not be empty');
-    }
-    if (quantity < 1) {
-      throw new Error('quantity should not < 1');
-    }
-    this.unitPrice = unitPrice;
-    this.name = name;
-    this.quantity = quantity;
-    this.productId = productId;
-  }
-
-  get subTotal() {
-    return this.unitPrice.multiplyBy(this.quantity);
+    // TODO: implement it
   }
 }
 
