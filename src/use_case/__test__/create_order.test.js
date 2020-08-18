@@ -18,7 +18,7 @@ const getSampleItemParam = () =>
     unitPrice: 10,
   });
 
-test('Creation test', async (t) => {
+test('Creation test - with init status processing', async (t) => {
   const orderRepo = new InMemOrderRepository();
   const usecase = new CreateOrderUseCase(orderRepo);
 

@@ -9,7 +9,7 @@ Feature: Shopper Places an order
     * An order should have a recipient's name, email, phone number & shipping address
     * an order can only has at max 8 unique items
     * Maximum qauntity of each item is 5
-    * Max order amount should not exceed 10,000
+    * Max order amount should not exceed 10,0000
 
   Background:
     Given the recipient information:

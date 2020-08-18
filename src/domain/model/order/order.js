@@ -161,6 +161,15 @@ class OrderItem {
    * @param {number} params.quantity
    */
   constructor({ unitPrice, name, quantity, productId }) {
+    if (!unitPrice) {
+      throw new Error('need unitPrice');
+    }
+    if (name === '') {
+      throw new Error('order item name should not be empty');
+    }
+    if (quantity < 1) {
+      throw new Error('quantity should not < 1');
+    }
     this.unitPrice = unitPrice;
     this.name = name;
     this.quantity = quantity;
