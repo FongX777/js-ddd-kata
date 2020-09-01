@@ -1,6 +1,6 @@
 /** @typedef {import('./product').Product} Product */
 
-class IOrderRepository {
+class IProductRepository {
   /**
    * @param {string} id
    * @returns {Promise.<Product>}
@@ -10,12 +10,12 @@ class IOrderRepository {
   }
 
   /**
-   * @param {Product} order
+   * @param {Product} product
    * @returns {Promise.<void>}
    */
-  async save(order) {
+  async save(product) {
     throw new Error('Not Implemented');
   }
 }
 
-module.exports.IOrderRepository = IOrderRepository;
+module.exports.IProductRepository = IProductRepository;

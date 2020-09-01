@@ -6,7 +6,6 @@ const { Money } = require('../money');
  * @property {string} id
  * @property {OrderRecipient} recipient
  * @property {OrderItem[]} items
- * @property {Money} total
  * @property {string} status
  */
 class Order {
@@ -27,13 +26,11 @@ class Order {
   /**
    * NOTE: this function is built for client
    * 1. status processing
-   * 2. items length <= 8
-   * 3. each item quantity <= 5
    * @returns {[string, Order]}
    */
   static createDefault({ id, recipient, items, currency }) {
     if (!id) {
-      return ['no id', undefined];
+      return ['Require id', undefined];
     }
     const [err, order] = Order.build({
       id,
@@ -47,10 +44,6 @@ class Order {
             productId: item.productId,
           })
       ),
-      total: new Money({
-        amount: items.reduce((acc, item) => acc + item.subTotal, 0),
-        currency,
-      }),
       status: Order.Statuses.PROCESSING,
     });
     if (err) {
@@ -61,6 +54,8 @@ class Order {
 
   /**
    * Note: This function is built mainly for internal usage
+   * 1. items length <= 8
+   * 2. each item quantity <= 5
    * @param {OrderFields} fields
    * @returns {[string, Order]}
    */
@@ -104,7 +99,11 @@ class Order {
   }
 
   get total() {
-    return this._fields.total;
+    const currency = this.items[0].subTotal.currency;
+    return new Money({
+      amount: this.items.reduce((acc, item) => acc + item.subTotal.amount, 0),
+      currency,
+    });
   }
 
   get status() {
