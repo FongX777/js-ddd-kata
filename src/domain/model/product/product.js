@@ -23,10 +23,10 @@ class Product {
    */
   static build(fields) {
     if (!fields.id) {
-      return ['Need id', undefined];
+      return ['Require id', undefined];
     }
     if (!fields.name || fields.name.length > 100) {
-      return ['Need name', undefined];
+      return ['Require name', undefined];
     }
     if (fields.stock < 0) {
       return ['stock should >= 0', undefined];
