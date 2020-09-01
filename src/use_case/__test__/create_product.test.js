@@ -37,6 +37,11 @@ const productRepo = {
     this.db[data.id] = data;
     return data;
   },
+  isNameDuplicate(name) {
+    const allProducts = this.getAll();
+    // return false;
+    return allProducts.some((p) => p.name === name);
+  },
 };
 const purchaseSettingRepo = {
   db: {},

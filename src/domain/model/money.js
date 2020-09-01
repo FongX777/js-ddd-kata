@@ -63,4 +63,4 @@ class Money {
   }
 }
 
-module.exports = { Money };
+module.exports.Money = Money;

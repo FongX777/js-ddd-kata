@@ -1,4 +1,92 @@
+const { Money } = require('../../domain/model/money');
 const { v4: uuidv4 } = require('uuid');
+
+/**
+ * @typedef {Object} ProductFields
+ * @property {string} id
+ * @property {string} name
+ * @property {string} sku
+ * @property {Money} unitPrice
+ * @property {boolean} available
+ */
+class Product {
+  /**
+   *
+   * @param {ProductFields} fields
+   */
+  constructor(fields) {
+    this._fields = fields;
+  }
+
+  get id() {
+    return this._fields.id;
+  }
+
+  get name() {
+    return this._fields.name;
+  }
+
+  get sku() {
+    return this._fields.sku;
+  }
+
+  get unitPrice() {
+    return this._fields.unitPrice;
+  }
+
+  get available() {
+    return this._fields.available;
+  }
+
+  /**
+   * @param {ProductFields} params
+   */
+  static build({ id, name, sku, unitPrice, available }) {
+    if (name.length > 100) {
+      return ['[input error] length of name should <= 100'];
+    }
+    if (sku.length > 20) {
+      return ['[input error] length of sku should <= 20'];
+    }
+    if (unitPrice.amount > 1000000) {
+      return ['[input error] max price should <= 1000k'];
+    }
+    return [undefined, new Product({ id, name, sku, unitPrice, available })];
+  }
+
+  static createDefault({ id, name, sku, price, currency }) {
+    return this.build({
+      id,
+      name,
+      sku,
+      unitPrice: new Money({ amount: price, currency }),
+      available: false,
+    });
+  }
+}
+
+/**
+ * @typedef {Object} PurchaseSettingFields
+ * @property {string} id
+ * @property {string} currency
+ */
+class PurchaseSetting {
+  /**
+   *
+   * @param {PurchaseSettingFields} fields
+   */
+  constructor(fields) {
+    this._fields = fields;
+  }
+
+  get id() {
+    return this._fields.id;
+  }
+
+  get currency() {
+    return this._fields.currency;
+  }
+}
 
 async function createProduct({
   purchaseSettingRepo,
@@ -6,20 +94,11 @@ async function createProduct({
   inventoryItemRepo,
   data,
 }) {
-  if (data.name.length > 100) {
-    return { error: '[input error] length of name should <= 100' };
-  }
-  if (data.sku.length > 20) {
-    return { error: '[input error] length of sku should <= 20' };
-  }
-  if (data.price > 1000000) {
-    return { error: '[input error] max price should <= 1000k' };
-  }
   if (data.stock < 0) {
     return { error: '[input error] stock should >= 0' };
   }
-  const allProducts = await productRepo.getAll();
-  if (allProducts.some((p) => p.name === data.name)) {
+  const nameDuplicate = await productRepo.isNameDuplicate(data.name);
+  if (nameDuplicate) {
     return { error: `[input error] name '${data.name}' has already been used` };
   }
 
@@ -29,12 +108,15 @@ async function createProduct({
   }
   const { currency } = purchaseSetting;
 
-  const product = {
+  const [errorResult, product] = Product.createDefault({
     id: uuidv4(),
-    name: data.name,
-    unitPrice: { amount: data.price, currency },
-    available: false,
-  };
+    ...data,
+    currency,
+  });
+  if (errorResult) {
+    return { error: errorResult };
+  }
+
   const inventoryItem = {
     id: product.id,
     stock: data.stock,
