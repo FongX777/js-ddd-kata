@@ -7,9 +7,8 @@ class CreateOrderUseCase {
    *
    * @param {IOrderRepository} orderRepo
    */
-  constructor(orderRepo, productRepo) {
+  constructor(orderRepo) {
     this.orderRepo = orderRepo;
-    this.productRepo = productRepo;
   }
 
   static get ErrorCode() {
@@ -48,29 +47,6 @@ class CreateOrderUseCase {
    * @param {Object} params.recipient
    */
   async execute({ items, recipient }) {
-    let shortage = false;
-    await Promise.all(
-      items.map(async (item) => {
-        const productId = item.productId;
-        const hasQuantity = await this.productRepo.checkQuantity({
-          id: productId,
-          quantity: item.quantity,
-        });
-        if (!hasQuantity) {
-          shortage = true;
-        }
-      })
-    );
-
-    if (shortage) {
-      return {
-        error: {
-          code: CreateOrderUseCase.ErrorCode.PRODUCT_SHORTAGE,
-          message: '[Create Order Error] product shortage',
-        },
-      };
-    }
-
     const [err, order] = Order.createDefault({
       id: uuidv4(),
       recipient: CreateOrderUseCase.toRecipient({

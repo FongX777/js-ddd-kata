@@ -32,10 +32,7 @@ async function createProduct({
   const product = {
     id: uuidv4(),
     name: data.name,
-    unitPrice: {
-      amount: data.price,
-      currency,
-    },
+    unitPrice: { amount: data.price, currency },
     available: false,
   };
   const inventoryItem = {
