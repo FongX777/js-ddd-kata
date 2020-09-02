@@ -7,7 +7,7 @@
  */
 
 const test = require('ava').default;
-const { createProduct } = require('../product');
+const { createProduct } = require('../product/index.complete');
 
 const productRepo = {
   db: {
@@ -40,6 +40,7 @@ const productRepo = {
   isNameDuplicate(name) {
     const allProducts = this.getAll();
     // return false;
+    return allProducts.some((p) => p.name === name);
   },
 };
 const purchaseSettingRepo = {
